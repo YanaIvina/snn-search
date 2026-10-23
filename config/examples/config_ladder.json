@@ -1,0 +1,256 @@
+{
+  "model_name": "LSRSNNLadder",
+  "neuron_params": {
+    "vth": 1.0,
+    "dt": 1.0,
+    "fraction_long": 0.5,
+    "tau_short": [
+      0,
+      20
+    ],
+    "tau_long": [
+      80,
+      100
+    ]
+  },
+  "surrogate_params": {
+    "h": 0.15,
+    "l": 0.5,
+    "s": 6
+  },
+  "nodes": [
+    {
+      "id": "inp",
+      "type": "input",
+      "size": 4096
+    },
+    {
+      "id": "stem",
+      "type": "reservoir",
+      "size": 768
+    },
+    {
+      "id": "upper1",
+      "type": "reservoir",
+      "size": 512,
+      "fraction_long": 0.6
+    },
+    {
+      "id": "lower1",
+      "type": "reservoir",
+      "size": 512,
+      "fraction_long": 0.4
+    },
+    {
+      "id": "upper2",
+      "type": "reservoir",
+      "size": 384,
+      "fraction_long": 0.7
+    },
+    {
+      "id": "lower2",
+      "type": "reservoir",
+      "size": 384,
+      "fraction_long": 0.7
+    },
+    {
+      "id": "fuse",
+      "type": "reservoir",
+      "size": 640,
+      "fraction_long": 0.8,
+      "tau_long": [
+        100,
+        180
+      ]
+    },
+    {
+      "id": "readout",
+      "type": "reservoir",
+      "size": 256
+    },
+    {
+      "id": "out",
+      "type": "output",
+      "size": 30
+    }
+  ],
+  "edges": [
+    {
+      "from": "inp",
+      "to": "stem",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "stem",
+      "to": "stem",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "stem",
+      "to": "upper1",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "stem",
+      "to": "lower1",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "upper1",
+      "to": "upper1",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "lower1",
+      "to": "lower1",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "upper1",
+      "to": "upper2",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "lower1",
+      "to": "lower2",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "upper1",
+      "to": "lower2",
+      "bias": false,
+      "weight_init": {
+        "type": "xavier_uniform"
+      }
+    },
+    {
+      "from": "lower1",
+      "to": "upper2",
+      "bias": false,
+      "weight_init": {
+        "type": "xavier_uniform"
+      }
+    },
+    {
+      "from": "upper2",
+      "to": "upper2",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "lower2",
+      "to": "lower2",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "stem",
+      "to": "fuse",
+      "bias": false,
+      "weight_init": {
+        "type": "xavier_uniform"
+      }
+    },
+    {
+      "from": "upper2",
+      "to": "fuse",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "lower2",
+      "to": "fuse",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "fuse",
+      "to": "fuse",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "fuse",
+      "to": "readout",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "readout",
+      "to": "readout",
+      "bias": false,
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "fuse",
+      "to": "out",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "readout",
+      "to": "out",
+      "bias": false,
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    }
+  ]
+}

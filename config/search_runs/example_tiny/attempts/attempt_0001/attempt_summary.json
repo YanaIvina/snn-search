@@ -1,0 +1,27 @@
+{
+  "run_id": "example_tiny",
+  "attempt_index": 1,
+  "attempt_id": "attempt_0001",
+  "status": "success",
+  "provider": "manual",
+  "model": "example",
+  "rationale": "Tiny single-reservoir baseline used only to demonstrate experiment layout and runner selection.",
+  "reasoning_summary": "Minimal architecture with one recurrent reservoir.",
+  "config_signature": "res=1, res_neurons=16, edges=3, recurrent=1, cnn=off",
+  "param_count": 66142,
+  "config_path": "config/search_runs/example_tiny/attempts/attempt_0001/config.json",
+  "model_path": "config/search_runs/example_tiny/attempts/attempt_0001/model.py",
+  "checkpoint_path": "",
+  "test_accuracy": 0.12,
+  "best_test_accuracy": 0.12,
+  "checkpoint_metadata": {
+    "model_name": "ExampleTinyReservoirSNN",
+    "timesteps": 5,
+    "epochs": 1,
+    "learning_rate": 0.002,
+    "dataset_path": "data/google_speech_commands_mels.npz",
+    "dataset_kind": "cache"
+  },
+  "error_message": "",
+  "proposal_retries_used": 0
+}

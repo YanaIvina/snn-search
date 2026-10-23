@@ -1,0 +1,27 @@
+{
+  "run_id": "example_tiny",
+  "attempt_index": 2,
+  "attempt_id": "attempt_0002",
+  "status": "success",
+  "provider": "manual",
+  "model": "example",
+  "rationale": "Tiny dual-branch architecture used only to demonstrate selecting a non-best attempt.",
+  "reasoning_summary": "Two small reservoirs connected to the output readout.",
+  "config_signature": "res=2, res_neurons=32, edges=5, recurrent=2, cnn=off",
+  "param_count": 132334,
+  "config_path": "config/search_runs/example_tiny/attempts/attempt_0002/config.json",
+  "model_path": "config/search_runs/example_tiny/attempts/attempt_0002/model.py",
+  "checkpoint_path": "",
+  "test_accuracy": 0.18,
+  "best_test_accuracy": 0.18,
+  "checkpoint_metadata": {
+    "model_name": "ExampleTinyParallelSNN",
+    "timesteps": 5,
+    "epochs": 1,
+    "learning_rate": 0.002,
+    "dataset_path": "data/google_speech_commands_mels.npz",
+    "dataset_kind": "cache"
+  },
+  "error_message": "",
+  "proposal_retries_used": 0
+}

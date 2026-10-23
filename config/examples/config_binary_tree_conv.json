@@ -1,0 +1,50 @@
+{
+  "model_name": "LSRSNNBinaryTree",
+  "conv_frontend": {
+    "enabled": true,
+    "in_channels": 1,
+    "channels": [32, 64, 128],
+    "use_bn": true,
+    "hw": [128, 32],
+    "pool": "avg"
+  },
+  "neuron_params": {
+    "vth": 1.0,
+    "dt": 1.0,
+    "fraction_long": 0.5,
+    "tau_short": [0, 20],
+    "tau_long": [80, 100]
+  },
+  "surrogate_params": { "h": 0.15, "l": 0.5, "s": 6 },
+  "nodes": [
+    { "id": "inp",   "type": "input",     "size": 4096 },
+    { "id": "resA1", "type": "reservoir", "size": 700  },
+    { "id": "resA2", "type": "reservoir", "size": 700  },
+    { "id": "resB1", "type": "reservoir", "size": 700  },
+    { "id": "resB2", "type": "reservoir", "size": 700  },
+    { "id": "agg1",  "type": "reservoir", "size": 700  },
+    { "id": "agg2",  "type": "reservoir", "size": 700  },
+    { "id": "root",  "type": "reservoir", "size": 700  },
+    { "id": "out",   "type": "output",    "size": 30   }
+  ],
+  "edges": [
+    { "from": "inp",   "to": "resA1", "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "inp",   "to": "resA2", "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "inp",   "to": "resB1", "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "inp",   "to": "resB2", "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "resA1", "to": "resA1", "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "resA2", "to": "resA2", "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "resB1", "to": "resB1", "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "resB2", "to": "resB2", "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "agg1",  "to": "agg1",  "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "agg2",  "to": "agg2",  "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "root",  "to": "root",  "weight_init": { "type": "orthogonal", "gain": 0.9 } },
+    { "from": "resA1", "to": "agg1",  "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "resA2", "to": "agg1",  "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "resB1", "to": "agg2",  "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "resB2", "to": "agg2",  "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "agg1",  "to": "root",  "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "agg2",  "to": "root",  "weight_init": { "type": "kaiming_uniform", "a": 0 } },
+    { "from": "root",  "to": "out",   "weight_init": { "type": "kaiming_uniform", "a": 0 } }
+  ]
+}

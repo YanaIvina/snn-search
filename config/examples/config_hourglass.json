@@ -1,0 +1,169 @@
+{
+  "model_name": "LSRSNNHourglass",
+  "neuron_params": {
+    "vth": 1.0,
+    "dt": 1.0,
+    "fraction_long": 0.5,
+    "tau_short": [
+      0,
+      20
+    ],
+    "tau_long": [
+      80,
+      100
+    ]
+  },
+  "surrogate_params": {
+    "h": 0.15,
+    "l": 0.5,
+    "s": 6
+  },
+  "nodes": [
+    {
+      "id": "inp",
+      "type": "input",
+      "size": 4096
+    },
+    {
+      "id": "enc1",
+      "type": "reservoir",
+      "size": 1024
+    },
+    {
+      "id": "enc2",
+      "type": "reservoir",
+      "size": 256,
+      "fraction_long": 0.7
+    },
+    {
+      "id": "lat",
+      "type": "reservoir",
+      "size": 64,
+      "fraction_long": 1.0,
+      "tau_long": [
+        100,
+        200
+      ]
+    },
+    {
+      "id": "dec1",
+      "type": "reservoir",
+      "size": 256,
+      "fraction_long": 0.7
+    },
+    {
+      "id": "dec2",
+      "type": "reservoir",
+      "size": 1024
+    },
+    {
+      "id": "out",
+      "type": "output",
+      "size": 30
+    }
+  ],
+  "edges": [
+    {
+      "from": "inp",
+      "to": "enc1",
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "enc1",
+      "to": "enc1",
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "enc1",
+      "to": "enc2",
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "enc2",
+      "to": "enc2",
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "enc2",
+      "to": "lat",
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "lat",
+      "to": "lat",
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "lat",
+      "to": "dec1",
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "enc2",
+      "to": "dec1",
+      "weight_init": {
+        "type": "xavier_uniform"
+      }
+    },
+    {
+      "from": "dec1",
+      "to": "dec1",
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "dec1",
+      "to": "dec2",
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    },
+    {
+      "from": "enc1",
+      "to": "dec2",
+      "weight_init": {
+        "type": "xavier_uniform"
+      }
+    },
+    {
+      "from": "dec2",
+      "to": "dec2",
+      "weight_init": {
+        "type": "orthogonal",
+        "gain": 0.9
+      }
+    },
+    {
+      "from": "dec2",
+      "to": "out",
+      "weight_init": {
+        "type": "kaiming_uniform",
+        "a": 0
+      }
+    }
+  ]
+}
